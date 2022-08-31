@@ -2,5 +2,5 @@
 # arm64 Apple M1
 pandas~=1.4.3
 githubdata~=20220817
-fastparquet ~= 0.8.1
+fastparquet~=0.8.1
 pyarrow~=9.0.0

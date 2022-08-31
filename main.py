@@ -3,14 +3,11 @@
 
   """
 ##
-import pandas as pd
 
 from githubdata import GithubData
-from mirutil.df_utils import read_data_according_to_type as read_data
-from mirutil.string_funcs import normalize_fa_str_completely as norm_comp
-from mirutil.tsetmc import search_tsetmc_ret_df as srch_tsetmc
-from mirutil.df_utils import save_as_prq_wo_index as save_as_prq
 from mirutil import utils as mu
+from mirutil.df_utils import read_data_according_to_type as read_data
+from mirutil.df_utils import save_as_prq_wo_index as save_as_prq
 from persiantools.jdatetime import JalaliDate
 
 
