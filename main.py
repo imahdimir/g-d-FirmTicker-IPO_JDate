@@ -1,52 +1,62 @@
+"""
+
+
+  """
 ##
-
-
 import pandas as pd
 
 from githubdata import GithubData
+from mirutil.df_utils import read_data_according_to_type as read_data
+from mirutil.string_funcs import normalize_fa_str_completely as norm_comp
+from mirutil.tsetmc import search_tsetmc_ret_df as srch_tsetmc
+from mirutil.df_utils import save_as_prq_wo_index as save_as_prq
+from mirutil import utils as mu
+from persiantools.jdatetime import JalaliDate
 
 
-btics_repo = 'https://github.com/imahdimir/d-Unique-BaseTickers-TSETMC'
-ipo_rep = 'https://github.com/imahdimir/d-BaseTicker-IPOJDate'
+targ_url = 'imahdimir/d-firms-IPO-date'
 
-btic = 'BaseTicker'
-ipojdc = 'IPOJDate'
+cipojd = 'IPO_JDate'
+cftic = 'FirmTicker'
+cdt = 'Date'
 
 def main() :
-
   pass
+  ##
+  rp_ipo = GithubData(targ_url)
+  rp_ipo.clone()
+  ##
+  dipp = rp_ipo.data_fp
+  dip = read_data(dipp)
+  ##
+  dip[cdt] = dip[
+    cipojd].apply(lambda x : JalaliDate.fromisoformat(x).to_gregorian())
+  ##
+  assert dip[cftic].is_unique
+  ##
+  save_as_prq(dip , dipp)
+  ##
+  tokp = '/Users/mahdi/Dropbox/tok.txt'
+  tok = mu.get_tok_if_accessible(tokp)
+  ##
+  msg = 'for duplicated firm tickers kept the earlier date'
+  rp_ipo.commit_and_push(msg , user = rp_ipo.user_name , token = tok)
 
   ##
-  bticdb = GithubData(btics_repo)
-  bticdb.clone_overwrite_last_version()
 
-  ipodb = GithubData(ipo_rep)
-  ipodb.clone_overwrite_last_version()
-  ##
-  fpn1 = bticdb.data_fps[0]
-  bticdf = pd.read_parquet(fpn1)
-  ##
-  fpn0 = ipodb.data_fps[0]
-  ipodf = pd.read_parquet(fpn0)
-  ##
-  ipodf = ipodf.sort_values(ipojdc)
-  ##
-  msk = ipodf.index.isin(bticdf.index)
 
-  ipodf = ipodf[msk]
-  df1 = ipodf[~ msk]
-  ##
-  ipodf.to_parquet(fpn0)
-  ##
-  commit_msg = 'only in BaseTickers db kept'
-  ipodb.commit_and_push_to_github_data_target(message = commit_msg)
-  ##
-  bticdb.rmdir()
-  ipodb.rmdir()
+  rp_ipo.rmdir()
 
 
   ##
 
+
   ##
+
+##
+
+
+if __name__ == '__main__' :
+  main()
 
 ##
