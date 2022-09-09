@@ -1,6 +1,6 @@
-# python 3.10.4 for arm64
-# arm64 Apple M1
-pandas~=1.4.3
-githubdata~=20220817
-fastparquet~=0.8.1
-pyarrow~=9.0.0
+# Python 3.10.5 for arm64
+# Mac OS 12.5
+# Apple M1
+
+githubdata~=8.2
+mirutil~=4.5
